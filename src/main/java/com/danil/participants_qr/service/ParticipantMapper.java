@@ -7,6 +7,7 @@ public class ParticipantMapper {
     public static ParticipantDto toDto(Participant p) {
         return new ParticipantDto(
                 p.getId(),
+                p.getSecondName(),
                 p.getFirstName(),
                 p.getLastName(),
                 p.getEmail()
@@ -16,6 +17,7 @@ public class ParticipantMapper {
     public static Participant toEntity(ParticipantDto dto) {
         Participant p = new Participant();
         p.setFirstName(dto.firstName());
+        p.setSecondName(dto.secondName());
         p.setLastName(dto.lastName());
         p.setEmail(dto.email());
         return p;

@@ -18,6 +18,9 @@ public class Participant {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "second_name", nullable = false)
+    private String secondName;
+
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
