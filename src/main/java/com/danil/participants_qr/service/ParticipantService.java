@@ -9,6 +9,7 @@ import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
 import com.danil.participants_qr.model.Participant;
 import com.danil.participants_qr.model.QrCode;
 import com.danil.participants_qr.repository.ParticipantRepository;
+import com.danil.participants_qr.repository.QrCodeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ParticipantService {
     private final ParticipantRepository repository;
+    private final QrCodeRepository qrCodeRepository;
     private final QrCodeService qrCodeService;
 
     public ParticipantDto getById(Long id) {
@@ -57,6 +59,7 @@ public class ParticipantService {
         if (!repository.existsById(id)) {
             throw new ParticipantIdNotFoundException(id);
         }
+        qrCodeRepository.deleteByParticipantId(id);
         repository.deleteById(id);
     }
 

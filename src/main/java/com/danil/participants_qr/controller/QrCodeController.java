@@ -4,6 +4,7 @@ import com.danil.participants_qr.dto.ParticipantDto;
 import com.danil.participants_qr.dto.QrCodeDto;
 import com.danil.participants_qr.dto.ScanRequest;
 import com.danil.participants_qr.service.QrCodeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,17 @@ public class QrCodeController {
         return qrCodeService.findAllQrCodes();
     }
 
-    @GetMapping("/scan/{token}")
-    public String scaner(ScanRequest request) {
-        return qrCodeService.scan(request);
+    @PostMapping("/scan")
+    public String scanner(@Valid @RequestBody ScanRequest request) {
+        ParticipantDto p = qrCodeService.scan(request);
+        return String.format("""
+                Доступ разрешен!
+                Участник: %s %s %s
+                """, p.firstName(), p.secondName(), p.lastName());
+    }
+
+    @DeleteMapping("/used/{id}")
+    public void deleteUsed(@PathVariable Long id) {
+        qrCodeService.deleteAllUsedByParticipantId(id);
     }
 }

@@ -14,6 +14,18 @@ import java.util.UUID;
 
 public interface QrCodeRepository extends JpaRepository<QrCode, UUID> {
 
+    @Modifying
+    @Query("delete from QrCode q where q.participant.id = :participantId")
+    void deleteByParticipantId(@Param("participantId") Long participantId);
+
+    @Modifying
+    @Query("""
+            delete from QrCode q
+            where q.participant.id = :participantId
+                and q.usedAt is not null
+            """)
+    void deleteAllUsedByParticipantId(@Param("participantId") Long participantId);
+
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
             update QrCode q set q.usedAt = :now
@@ -25,7 +37,7 @@ public interface QrCodeRepository extends JpaRepository<QrCode, UUID> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
-            update QrCode q set q.revokedAt = :now
+            update QrCode q set q.usedAt = :now
             where q.participant.id = :participantId
               and q.usedAt is null
               and q.revokedAt is null

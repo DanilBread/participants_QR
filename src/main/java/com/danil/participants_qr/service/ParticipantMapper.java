@@ -7,8 +7,8 @@ public class ParticipantMapper {
     public static ParticipantDto toDto(Participant p) {
         return new ParticipantDto(
                 p.getId(),
-                p.getSecondName(),
                 p.getFirstName(),
+                p.getSecondName(),
                 p.getLastName(),
                 p.getEmail()
         );

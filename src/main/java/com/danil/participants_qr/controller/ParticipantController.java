@@ -31,7 +31,7 @@ public class ParticipantController {
     @PostMapping("/save_participant")
     public String saveParticipant(@RequestBody ParticipantDto participantDto) {
         participantService.saveParticipant(participantDto);
-        return "Participant successfully saved";
+        return "Участник успешно сохранен";
     }
 
     @PostMapping("/register")
