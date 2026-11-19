@@ -1,7 +1,7 @@
-package com.danil.participants_qr.dto;
+package com.danil.participants_qr.dto.response;
 
 public record ParticipantDto(
-        Long Id,
+        Long id,
         String firstName,
         String secondName,
         String lastName,

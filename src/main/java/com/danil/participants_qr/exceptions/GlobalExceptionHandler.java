@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidQrCodeException.class)
     public ResponseEntity<ErrorResponse> handleInvalidQrCode(InvalidQrCodeException ex) {
         log.warn("Scan rejected: invalid or already used QR code");
-        return ResponseEntity.status(403).body(new ErrorResponse("Доступ отклонён"));
+        return ResponseEntity.status(403).body(new ErrorResponse("Доступ запрещен"));
     }
 
     @ExceptionHandler(ParticipantIdNotFoundException.class)

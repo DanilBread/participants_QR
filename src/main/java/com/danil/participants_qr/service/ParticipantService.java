@@ -1,11 +1,14 @@
 package com.danil.participants_qr.service;
 
-import com.danil.participants_qr.dto.CreateParticipantRequest;
-import com.danil.participants_qr.dto.ParticipantDto;
-import com.danil.participants_qr.dto.RegisterParticipantResponse;
-import com.danil.participants_qr.dto.UpdateParticipantRequest;
+import com.danil.participants_qr.dto.request.CreateParticipantRequest;
+import com.danil.participants_qr.dto.request.UpdateParticipantRequest;
+import com.danil.participants_qr.dto.response.CreateParticipantResponse;
+import com.danil.participants_qr.dto.response.ParticipantDto;
+import com.danil.participants_qr.dto.response.RegisterParticipantResponse;
 import com.danil.participants_qr.exceptions.EmailAlreadyUsedException;
 import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
+import com.danil.participants_qr.mapper.ParticipantMapper;
+import com.danil.participants_qr.mapper.QrCodeMapper;
 import com.danil.participants_qr.model.Participant;
 import com.danil.participants_qr.model.QrCode;
 import com.danil.participants_qr.repository.ParticipantRepository;
@@ -34,8 +37,9 @@ public class ParticipantService {
                 .toList();
     }
 
-    public void saveParticipant(ParticipantDto participantDto) {
-        repository.save(ParticipantMapper.toEntity(participantDto));
+    public CreateParticipantResponse saveParticipant(CreateParticipantRequest request) {
+        Participant saved = repository.save(ParticipantMapper.toEntity(request));
+        return new CreateParticipantResponse(ParticipantMapper.toDto(saved));
     }
 
     @Transactional
@@ -48,6 +52,7 @@ public class ParticipantService {
         }
 
         participant.setFirstName(request.firstName());
+        participant.setSecondName(request.secondName());
         participant.setLastName(request.lastName());
         participant.setEmail(request.email());
 

@@ -1,4 +1,4 @@
-package com.danil.participants_qr.dto;
+package com.danil.participants_qr.dto.response;
 
 public record RegisterParticipantResponse(
         ParticipantDto participant,

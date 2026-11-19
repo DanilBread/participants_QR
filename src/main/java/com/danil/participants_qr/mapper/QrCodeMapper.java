@@ -1,6 +1,6 @@
-package com.danil.participants_qr.service;
+package com.danil.participants_qr.mapper;
 
-import com.danil.participants_qr.dto.QrCodeDto;
+import com.danil.participants_qr.dto.response.QrCodeDto;
 import com.danil.participants_qr.model.QrCode;
 
 public class QrCodeMapper {

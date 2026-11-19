@@ -1,11 +1,13 @@
 package com.danil.participants_qr.service;
 
-import com.danil.participants_qr.dto.ParticipantDto;
-import com.danil.participants_qr.dto.QrCodeDto;
-import com.danil.participants_qr.dto.ScanRequest;
+import com.danil.participants_qr.dto.response.ParticipantDto;
+import com.danil.participants_qr.dto.response.QrCodeDto;
+import com.danil.participants_qr.dto.request.ScanRequest;
 import com.danil.participants_qr.exceptions.InvalidQrCodeException;
 import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
 import com.danil.participants_qr.exceptions.ParticipantNotFoundException;
+import com.danil.participants_qr.mapper.ParticipantMapper;
+import com.danil.participants_qr.mapper.QrCodeMapper;
 import com.danil.participants_qr.model.Participant;
 import com.danil.participants_qr.model.QrCode;
 import com.danil.participants_qr.repository.ParticipantRepository;

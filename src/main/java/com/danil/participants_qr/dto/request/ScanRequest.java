@@ -1,4 +1,4 @@
-package com.danil.participants_qr.dto;
+package com.danil.participants_qr.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 

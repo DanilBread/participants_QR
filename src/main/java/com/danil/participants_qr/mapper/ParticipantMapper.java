@@ -1,6 +1,7 @@
-package com.danil.participants_qr.service;
+package com.danil.participants_qr.mapper;
 
-import com.danil.participants_qr.dto.ParticipantDto;
+import com.danil.participants_qr.dto.request.CreateParticipantRequest;
+import com.danil.participants_qr.dto.response.ParticipantDto;
 import com.danil.participants_qr.model.Participant;
 
 public class ParticipantMapper {
@@ -14,7 +15,7 @@ public class ParticipantMapper {
         );
     }
 
-    public static Participant toEntity(ParticipantDto dto) {
+    public static Participant toEntity(CreateParticipantRequest dto) {
         Participant p = new Participant();
         p.setFirstName(dto.firstName());
         p.setSecondName(dto.secondName());
