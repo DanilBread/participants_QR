@@ -2,9 +2,7 @@ package com.danil.participants_qr.service;
 
 import com.danil.participants_qr.dto.request.CreateParticipantRequest;
 import com.danil.participants_qr.dto.request.UpdateParticipantRequest;
-import com.danil.participants_qr.dto.response.CreateParticipantResponse;
-import com.danil.participants_qr.dto.response.ParticipantDto;
-import com.danil.participants_qr.dto.response.RegisterParticipantResponse;
+import com.danil.participants_qr.dto.response.*;
 import com.danil.participants_qr.exceptions.EmailAlreadyUsedException;
 import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
 import com.danil.participants_qr.mapper.ParticipantMapper;
@@ -15,6 +13,10 @@ import com.danil.participants_qr.repository.ParticipantRepository;
 import com.danil.participants_qr.repository.QrCodeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,10 +33,27 @@ public class ParticipantService {
         return ParticipantMapper.toDto(participant);
     }
 
-    public List<ParticipantDto> findAllParticipant() {
-        return repository.findAll().stream()
+    public ParticipantResponse findAllParticipant(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Participant> participants = repository.findAll(pageable);
+
+        List<ParticipantDto> participantList = participants.stream()
                 .map(ParticipantMapper::toDto)
                 .toList();
+
+        ParticipantResponse participantResponse = new ParticipantResponse(
+                participantList,
+                participants.getNumber(),
+                participants.getSize(),
+                participants.getTotalElements(),
+                participants.getTotalPages(),
+                participants.isLast()
+        );
+
+        return participantResponse;
     }
 
     public CreateParticipantResponse saveParticipant(CreateParticipantRequest request) {

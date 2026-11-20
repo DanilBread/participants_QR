@@ -2,21 +2,23 @@ package com.danil.participants_qr.controller;
 
 import com.danil.participants_qr.dto.request.CreateParticipantRequest;
 import com.danil.participants_qr.dto.request.UpdateParticipantRequest;
-import com.danil.participants_qr.dto.response.CreateParticipantResponse;
-import com.danil.participants_qr.dto.response.ParticipantDto;
-import com.danil.participants_qr.dto.response.RegisterParticipantResponse;
+import com.danil.participants_qr.dto.response.*;
 import com.danil.participants_qr.service.ParticipantService;
+import com.danil.participants_qr.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URI;
 import java.util.List;
@@ -29,8 +31,18 @@ public class ParticipantController {
     private final ParticipantService participantService;
 
     @GetMapping()
-    public List<ParticipantDto> findAllParticipant() {
-        return participantService.findAllParticipant();
+    public ResponseEntity<ParticipantResponse> findAllParticipant(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,
+                    required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE,
+                    required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY,
+                    required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION,
+                    required = false) String sortDir
+    ) {
+        ParticipantResponse response = participantService.findAllParticipant(pageNo, pageSize, sortBy, sortDir);
+        return ResponseEntity.status(200).body(response);
     }
 
     @GetMapping("/{id}")
