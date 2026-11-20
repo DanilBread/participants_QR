@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-create-qr-codes
+      author: Tverdokhlebov Danil
+      changes:
+        - createTable:
+            tableName: qr_codes
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: participant_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: participant_qr_fk
+                    referencedTableName: participants
+                    referencedColumnNames: id
+              - column:
+                 name: created_at
+                 type: TIMESTAMP WITH TIME ZONE
+                 constraints:
+                   nullable: false
+                   updatable: false
+              - column:
+                 name: updated_at
+                 type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: used_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: revoked_at
+                  type: TIMESTAMP WITH TIME ZONE
+
+
