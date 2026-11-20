@@ -47,5 +47,7 @@ public interface QrCodeRepository extends JpaRepository<QrCode, UUID> {
 
     @Query("select q.participant from QrCode q where q.id = :id")
     Optional<Participant> findParticipantByCodeId(@Param("id") UUID id);
+
+    boolean existsByParticipantIdAndUsedAtIsNullAndRevokedAtIsNull(Long participantId);
 }
 

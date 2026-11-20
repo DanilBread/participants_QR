@@ -1,14 +1,11 @@
 package com.danil.participants_qr.controller;
 
 import com.danil.participants_qr.dto.request.CreateParticipantRequest;
-import com.danil.participants_qr.dto.request.UpdateParticipantRequest;
 import com.danil.participants_qr.dto.response.*;
 import com.danil.participants_qr.service.ParticipantService;
 import com.danil.participants_qr.utils.AppConstants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/participants")
@@ -66,7 +62,7 @@ public class ParticipantController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ParticipantDto> updateParticipant(@PathVariable Long id,
-                                 @Valid @RequestBody UpdateParticipantRequest request) {
+                                 @Valid @RequestBody CreateParticipantRequest request) {
         return ResponseEntity.status(200).body(participantService.updateParticipant(id, request));
     }
 

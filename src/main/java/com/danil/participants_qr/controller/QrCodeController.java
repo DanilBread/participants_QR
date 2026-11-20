@@ -1,5 +1,6 @@
 package com.danil.participants_qr.controller;
 
+import com.danil.participants_qr.dto.response.CreateQrCodeResponse;
 import com.danil.participants_qr.dto.response.ParticipantDto;
 import com.danil.participants_qr.dto.request.ScanRequest;
 import com.danil.participants_qr.dto.response.QrCodeResponse;
@@ -44,6 +45,11 @@ public class QrCodeController {
     public ResponseEntity<ScanResponse> scanner(@Valid @RequestBody ScanRequest request) {
         ParticipantDto participant = qrCodeService.scan(request);
         return ResponseEntity.status(200).body(new ScanResponse(true, "Доступ разрешен", participant));
+    }
+
+    @PostMapping("/create/{id}")
+    public ResponseEntity<CreateQrCodeResponse> create(@PathVariable Long id) {
+        return ResponseEntity.status(201).body(qrCodeService.createQrCodeForParticipant(id));
     }
 
     @DeleteMapping("/used/{id}")

@@ -1,7 +1,6 @@
 package com.danil.participants_qr.service;
 
 import com.danil.participants_qr.dto.request.CreateParticipantRequest;
-import com.danil.participants_qr.dto.request.UpdateParticipantRequest;
 import com.danil.participants_qr.dto.response.*;
 import com.danil.participants_qr.exceptions.EmailAlreadyUsedException;
 import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
@@ -62,7 +61,7 @@ public class ParticipantService {
     }
 
     @Transactional
-    public ParticipantDto updateParticipant(Long id, UpdateParticipantRequest request) {
+    public ParticipantDto updateParticipant(Long id, CreateParticipantRequest request) {
         Participant participant = repository.findById(id)
                 .orElseThrow(() -> new ParticipantIdNotFoundException(id));
 

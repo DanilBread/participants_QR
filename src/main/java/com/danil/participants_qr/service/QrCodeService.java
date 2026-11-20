@@ -1,5 +1,6 @@
 package com.danil.participants_qr.service;
 
+import com.danil.participants_qr.dto.response.CreateQrCodeResponse;
 import com.danil.participants_qr.dto.response.ParticipantDto;
 import com.danil.participants_qr.dto.response.QrCodeDto;
 import com.danil.participants_qr.dto.request.ScanRequest;
@@ -7,6 +8,7 @@ import com.danil.participants_qr.dto.response.QrCodeResponse;
 import com.danil.participants_qr.exceptions.InvalidQrCodeException;
 import com.danil.participants_qr.exceptions.ParticipantIdNotFoundException;
 import com.danil.participants_qr.exceptions.ParticipantNotFoundException;
+import com.danil.participants_qr.exceptions.QrCodeAlreadyExistsException;
 import com.danil.participants_qr.mapper.ParticipantMapper;
 import com.danil.participants_qr.mapper.QrCodeMapper;
 import com.danil.participants_qr.model.Participant;
@@ -85,5 +87,31 @@ public class QrCodeService {
             throw new ParticipantIdNotFoundException(id);
         }
         repository.deleteAllUsedByParticipantId(id);
+    }
+
+    @Transactional
+    public QrCode create(Participant participant) {
+        QrCode qrCode = new QrCode();
+        qrCode.setParticipant(participant);
+        return repository.save(qrCode);
+    }
+
+    @Transactional
+    public CreateQrCodeResponse createQrCodeForParticipant(Long id) {
+        Participant participant = participantRepository.findById(id)
+                .orElseThrow(() -> new ParticipantIdNotFoundException(id));
+
+        if (repository.existsByParticipantIdAndUsedAtIsNullAndRevokedAtIsNull(id)) {
+            throw new QrCodeAlreadyExistsException(id);
+        }
+
+        create(participant);
+
+        CreateQrCodeResponse response = new CreateQrCodeResponse(
+            "QR-код успешно создан",
+                ParticipantMapper.toDto(participant)
+        );
+
+        return response;
     }
 }
