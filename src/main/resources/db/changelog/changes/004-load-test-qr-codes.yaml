@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4-load-test-qr-codes
+      author: Tverdokhlebov Danil
+      context: test
+      changes:
+        - loadData:
+            file: db/data/qr_codes.csv
+            relativeToChangelogFile: false
+            tableName: qr_codes
+            separator: ","
+            encoding: UTF-8
