@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: 2-create-qr-codes
       author: Tverdokhlebov Danil
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: qr_codes
       changes:
         - createTable:
             tableName: qr_codes
@@ -23,6 +28,7 @@ databaseChangeLog:
               - column:
                  name: created_at
                  type: TIMESTAMP WITH TIME ZONE
+                 defaultValueComputed: NOW()
                  constraints:
                    nullable: false
               - column:
@@ -34,5 +40,10 @@ databaseChangeLog:
               - column:
                   name: revoked_at
                   type: TIMESTAMP WITH TIME ZONE
-
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: qr_codes
+            constraintName: participant_qr_fk
+        - dropTable:
+          tableName: qr_codes
 
