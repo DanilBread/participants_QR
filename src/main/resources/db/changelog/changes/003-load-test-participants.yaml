@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3-load-test-participants
+      author: Tverdokhlebov Danil
+      context: test
+      changes:
+        - loadData:
+            file: db/data/participants.csv
+            relativeToChangelogFile: false
+            tableName: participants
+            separator: ","
+            encoding: UTF-8
