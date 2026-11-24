@@ -28,7 +28,8 @@ public class ParticipantService {
     private final QrCodeService qrCodeService;
 
     public ParticipantDto getById(Long id) {
-        Participant participant = repository.findById(id).orElseThrow();
+        Participant participant = repository.findById(id)
+                .orElseThrow(() -> new ParticipantIdNotFoundException(id));
         return ParticipantMapper.toDto(participant);
     }
 
