@@ -155,7 +155,7 @@ public class ParticipantServiceTest {
     }
 
     @Test
-    void deleteParticipang_shouldThrowWhenParticipantIdNotFound() {
+    void deleteParticipant_shouldThrowWhenParticipantIdNotFound() {
         when(repository.existsById(99L)).thenReturn(false);
 
         assertThrows(ParticipantIdNotFoundException.class,
